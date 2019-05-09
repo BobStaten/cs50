@@ -1,8 +1,9 @@
-#include <stdio.h>
-#include <cs50.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+// program to encode and decode text using vigenere cypher
+include <stdio.h>
+include <cs50.h>
+include <stdlib.h>
+include <string.h>
+include <ctype.h>
 
 // declares two functions to encipher upper and lower case lelments
 int encrypt_upper(int x, int y);
