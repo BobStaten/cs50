@@ -1,3 +1,4 @@
+# implements cs50 problem Sentiments
 from flask import Flask, redirect, render_template, request, url_for
 
 import helpers
