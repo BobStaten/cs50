@@ -1,2 +1,2 @@
-# greedy
-calculates minimum number of coins in change
+CS50
+Old CS50 problem set solutions
