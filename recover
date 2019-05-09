@@ -1,0 +1,80 @@
+// BobStaten
+// cs50 pset 4 recover
+// recovers deleted jpgs from memory card
+
+#include <stdio.h>
+
+int main(int argc, char* argv[])
+{
+    // ensure proper usage
+    if(argc != 2)
+        {
+            fprintf(stderr, "usage: ./recover filename\n");
+            return 1;
+        }
+    // open card file
+    FILE* inptr = fopen("card.raw", "r");
+    if (inptr == NULL)
+    {
+        fprintf (stderr, "Could not open %s.\n", argv[1]);
+        return 2;
+    }
+    // declarations
+    int counter = 0;
+    unsigned char buffer[512];
+    char filename[8];
+    FILE *img = NULL;
+
+    // ZAMYLA - REPEAT UNTIL END OF CARD
+    while (fread (buffer, 512, 1, inptr) == 1)
+    {
+            // ZAMYLA - IS THIS A JPEG HEADER? YES
+            if (buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff && (buffer[3] & 0xf0) == 0xe0)
+            {
+                // ZAMYLA - ALREADY FOUND A JPEG? YES
+                if (img != NULL)
+                {
+                    // close old file
+                    fclose(img);
+                    // open new file
+                    sprintf (filename, "%03i.jpg", counter);
+                    img = fopen(filename, "w");
+
+                    // write first block to img
+                    fwrite(buffer, 512, 1, img);
+                    counter++;
+
+                }
+                // ZAMYLA - ALREADY FOUND A JPEG? NO
+                else
+                {
+                    //open 1st jpg
+                    sprintf (filename, "%03i.jpg", counter);
+                    img = fopen(filename, "w");
+
+                    // write first block to img
+                    fwrite (buffer, 512, 1 , img);
+                    counter++;
+                }
+            }
+            // ZAMYLA - IS THIS THE START OF A JPEG? NO
+            else
+            {
+                // ZAMYLA - ALREADY FOUND? YES
+                if (counter > 0)
+                {
+                    fwrite (buffer, 512, 1, img);
+                }
+                // ZAMYLA - ALREADY FOUND? NO
+                else if (counter == 0)
+                {
+                    // discard current
+                    // read next
+                }
+            }
+    }
+
+            fclose(inptr);
+            fclose (img);
+return 0;
+}

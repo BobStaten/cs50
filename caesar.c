@@ -1,32 +1,28 @@
-#include <cs50.h>
 #include <stdio.h>
-#include <ctype.h>
+#include <cs50.h>
+#include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
-int main(void)
+// declares two functions to encipher upper and lower case lelments
+int encrypt_upper(int x, int y);
+int encrypt_upper(x, y)
 {
-
-    string s = get_string();
-
-    // Prints 1st letter of first name
-
-        printf("%c", toupper(s[0]));
-
-    // prints first letter after a space
-
-        int i;
-        int j;
-        int n;
-
-        for( i = 0, j = strlen(s); i < j; i++)
-
-            // identifies spaces
-
-            if (s[i] == ' ')
-                {
-                    n=i;
-                    printf("%c", toupper(s[n+1]));
-                }
-                printf("\n");
-
+    int result =(((x - 'A') + y) % 26 + 'A');
+    return result;
 }
+
+int encrypt_lower(int x, int y);
+int encrypt_lower(x, y)
+{
+    int result = (((x - 'a') + y) % 26 + 'a');
+    return result;
+}
+
+int main(int argc, string argv[])
+{
+    // prompts for valid key
+    if (argc == 2 && argv[1] != 0)
+    {
+        string key = argv[1];
+        int i = atoi(key);
